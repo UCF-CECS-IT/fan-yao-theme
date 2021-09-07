@@ -1,0 +1,83 @@
+.box-shadow-soft {
+  box-shadow: $box-shadow-soft-length $box-shadow-color;
+}
+
+.box-shadow-soft-inverse {
+  box-shadow: $box-shadow-soft-length $box-shadow-color-inverse;
+}
+
+.text-shadow-soft {
+  text-shadow: 0.1em 0.1em 0.25em $box-shadow-color;
+}
+
+.newsitem-link {
+  @include hover-focus {
+    text-decoration: none;
+
+    .newsitem-heading {
+      text-decoration: underline;
+    }
+  }
+}
+
+.wrapper-link {
+  @include hover-focus {
+    text-decoration: none;
+
+    .wrapper-heading {
+      text-decoration: underline;
+    }
+  }
+}
+
+.font-85 {
+  font-size: 85%;
+}
+
+.hover-parent:hover {
+  .hover-child-dark-purple {
+    color: #8e4aa9 !important;
+  }
+}
+
+.ucfwp-post-list-people {
+  .person-link {
+    color: $black;
+  }
+
+  .person-photo {
+    height: 0;
+    padding-bottom: 100%;
+    width: 100%;
+
+    @include media-breakpoint-up(lg) {
+      height: 0;
+      width: 100%;
+    }
+  }
+
+  .person-name {
+    font-size: .85rem;
+  }
+
+  .person-job-title,
+  .person-name,
+  .person-phone,
+  .person-email {
+    font-size: $font-size-xs;
+    line-height: 1.1;
+    margin-bottom: .4em;
+  }
+
+  .person-email {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ucf-post-search .person-photo {
+    height: 4rem;
+    padding-bottom: 0;
+    width: 4rem;
+  }
+}

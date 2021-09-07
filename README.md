@@ -44,3 +44,17 @@ Note that compiled, minified css and js files are included within the repo.  Cha
 ## Contributing
 
 Want to submit a bug report or feature request?  Check out our [contributing guidelines](https://github.com/UCF/{{My-Project}}/blob/master/CONTRIBUTING.md) for more information.  We'd love to hear from you!
+
+
+# Notes
+Remove blue bar for headings
+No projects on the main page, only specific page
+No team members for the main page
+add bio page
+
+- [x] show selected publications on the project summary page. simple list to save space.
+
+add selected publications for the main page (4 for now)
+
+make icons smaller
+
