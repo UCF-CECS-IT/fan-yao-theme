@@ -16,6 +16,7 @@
 <html lang="en-us">
 	<head>
 		<?php wp_head(); ?>
+		<title><?php echo get_bloginfo( 'name' ); ?></title>
 	</head>
 	<body ontouchstart class="position-relative" data-spy="scroll" data-target="#sticky-nav">
 		<!-- <a class="skip-navigation bg-complementary text-inverse box-shadow-soft" href="#content">Skip to main content</a> -->
