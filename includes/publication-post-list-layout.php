@@ -37,7 +37,6 @@ if ( ! function_exists( 'ucfwp_post_list_display_publication' ) ) {
 		ob_start();
 	?>
 		<?php if ( $items ): ?>
-			<pre>
 			<?php
 				// Group publications by year
 				$grouped = [];
@@ -59,7 +58,6 @@ if ( ! function_exists( 'ucfwp_post_list_display_publication' ) ) {
 					$ordered[$year] = $yearItems;
 				}
 			?>
-			</pre>
 			<?php foreach($ordered as $year => $yearItems): ?>
 				<h4><?php echo $year; ?></h4>
 
@@ -179,7 +177,6 @@ if ( ! function_exists( 'ucfwp_post_list_display_selected_publication' ) ) {
 		ob_start();
 	?>
 		<?php if ( $items ): ?>
-			<pre>
 			<?php
 				// Group publications by year
 				$grouped = [];
@@ -201,7 +198,6 @@ if ( ! function_exists( 'ucfwp_post_list_display_selected_publication' ) ) {
 					$ordered[$year] = $yearItems;
 				}
 			?>
-			</pre>
 			<?php foreach($ordered as $year => $yearItems): ?>
 				<?php foreach ( $yearItems as $index => $item ): ?>
 					<div class="pl-3 d-flex flex-column align-content-start">

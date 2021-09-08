@@ -47,14 +47,11 @@ Want to submit a bug report or feature request?  Check out our [contributing gui
 
 
 # Notes
-Remove blue bar for headings
-No projects on the main page, only specific page
-No team members for the main page
-add bio page
-
-- [x] show selected publications on the project summary page. simple list to save space.
-
-add selected publications for the main page (4 for now)
-
-make icons smaller
+- [x] Remove blue bar for headings
+- [x] No projects on the main page, only specific page
+- [x] No team members for the main page
+- [x] add bio page --> Linking to existing personal page
+- [X] show selected publications on the project summary page. simple list to save space.
+- [x] add selected publications for the main page (4 for now)
+- [x] make icons smaller
 

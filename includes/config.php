@@ -1,5 +1,6 @@
 <?php
 
+
 define('THEME_URL', get_template_directory_uri());
 define('THEME_STATIC_URL', THEME_URL . '/static');
 define('THEME_CSS_URL', THEME_STATIC_URL . '/css');

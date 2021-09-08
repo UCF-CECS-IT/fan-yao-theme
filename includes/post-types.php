@@ -103,7 +103,7 @@ function add_custom_taxonomy()
 		)
 	);
 
-	register_taxonomy( 'selected-publications', array( 'publications' ), $args );
+	register_taxonomy( 'selected_publications', array( 'publications' ), $args );
 }
 
 add_action( 'init', 'add_custom_taxonomy', 0 );

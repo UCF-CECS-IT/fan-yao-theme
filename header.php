@@ -30,15 +30,6 @@
 				</button>
 
 				<?php echo $menu; ?>
-				<!-- <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-					<div class="navbar-nav ml-auto">
-						<a class="nav-item nav-link" href="<?php echo get_bloginfo('url'); ?>">Home</a>
-						<a class="nav-item nav-link" href="<?php echo get_bloginfo('url'); ?>#projects">Projects</a>
-						<a class="nav-item nav-link" href="<?php echo get_bloginfo('url'); ?>#publications">Publications</a>
-						<a class="nav-item nav-link" href="<?php echo get_bloginfo('url'); ?>#team">Team</a>
-						<a class="nav-item nav-link" href="<?php echo get_bloginfo('url'); ?>/news">News</a>
-					</div>
-				</div> -->
 			</div>
 		</nav>
 
