@@ -11,6 +11,7 @@ include_once 'includes/news-post-list-layout.php';
 include_once 'includes/project-post-list-layout.php';
 include_once 'includes/publication-post-list-layout.php';
 include_once 'includes/person-post-list-layout.php';
+include_once 'includes/talks-post-list-layout.php';
 
 // Add Options page
 if( function_exists('acf_add_options_page') ) {

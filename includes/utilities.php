@@ -44,28 +44,28 @@ function get_news_icon( int $postId ) {
 			case 'graduation':
 				$color = 'success';
 				$name = $category->name;
-				$icon = '<i class="fas fa-graduation-cap"></i> ';
+				$icon = '<i class="fas fa-graduation-cap"></i> &nbsp;';
 				break;
 
 			case 'award':
 				$color = 'complementary';
 				$name = $category->name;
-				$icon = '<i class="fas fa-award"></i> ';
+				$icon = '<i class="fas fa-award"></i> &nbsp;';
 				break;
 
 			case 'paper':
 				$color = 'info';
 				$name = $category->name;
-				$icon = '<i class="fas fa-book"></i> ';
+				$icon = '<i class="fas fa-book"></i> &nbsp;';
 				break;
 
 			default:
 				$color = 'primary';
 				$name = 'Other';
-				$icon = '<i class="fas fa-rss"></i> ';
+				$icon = '<i class="fas fa-rss"></i> &nbsp;';
 				break;
 		}
 
-		echo '<span class="badge badge-' . $color . ' box-shadow-soft">' . $icon . $name . "</span>";
+		echo '<span class="d-flex flex-row badge badge-' . $color . ' box-shadow-soft mb-1">' . $icon . $name . "</span>";
 	}
 }

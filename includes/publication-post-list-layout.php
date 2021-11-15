@@ -38,6 +38,9 @@ if ( ! function_exists( 'ucfwp_post_list_display_publication' ) ) {
 	?>
 		<?php if ( $items ): ?>
 			<?php
+				// Set current year
+				$currentYear = intval( date('Y') );
+
 				// Group publications by year
 				$grouped = [];
 
@@ -47,6 +50,8 @@ if ( ! function_exists( 'ucfwp_post_list_display_publication' ) ) {
 				}
 
 				$ordered = [];
+
+				// Begin by sorting by date - newest to oldest
 				foreach($grouped as $year => $yearItems) {
 					usort($yearItems, function($a, $b) {
 						$first = get_field('publication_month', $a->ID);
@@ -57,13 +62,92 @@ if ( ! function_exists( 'ucfwp_post_list_display_publication' ) ) {
 
 					$ordered[$year] = $yearItems;
 				}
+
+				// Re-sort by display order
+				foreach($ordered as $year => $yearItems) {
+					usort($yearItems, function($a, $b) {
+						/**
+						 * Comparison uses Elvis operator because the result may return an empty string,
+						 * so a null coalescing check will miss it.
+						 */
+						$first = get_field('publication_display_order', $a->ID) ?: 9999;
+						$second = get_field('publication_display_order', $b->ID) ?: 9999;
+
+						return ($first <=> $second);
+					});
+
+					$ordered[$year] = $yearItems;
+				}
 			?>
 			<?php foreach($ordered as $year => $yearItems): ?>
-				<h4><?php echo $year; ?></h4>
 
-				<div class="mb-4">
+				<?php if ( ( $currentYear - $year ) < 3) :?>
+
+					<!-- Display Individual Date Years -->
+					<h4><?php echo $year; ?></h4>
+					<hr class="mt-1">
+
+					<div class="mb-4">
+						<?php foreach ( $yearItems as $index => $item ): ?>
+							<div class="pl-3 d-flex flex-column align-content-start mb-2">
+								<div class="w-100">
+									<div class="text-primary"><?php echo get_field('publication_title', $item->ID); ?></div>
+									<div class="font-size-sm font-italic"><?php echo get_field('publication_authors', $item->ID); ?></div>
+									<div>
+										<h6 class="d-inline"><?php echo get_field('publication_journal', $item->ID); ?></h6>
+										<?php if (get_field('publication_month', $item->ID)): ?>
+											<?php echo get_field('publication_month', $item->ID); ?>
+										<?php endif; ?>
+										<?php if (get_field('publication_year', $item->ID)): ?>
+											<?php echo get_field('publication_year', $item->ID); ?>
+										<?php endif; ?>
+									</div>
+								</div>
+								<div class="w-100 pl-3 pt-1 text-left">
+									<?php if (get_field('publication_pdf', $item->ID)): ?>
+										<a class="text-complementary px-1" href="<?php echo get_field('publication_pdf', $item->ID); ?>">
+											<i class="far fa-file-pdf fa-1x text-shadow-soft"></i>
+										</a>
+									<?php endif; ?>
+
+									<?php if (get_field('publication_slides', $item->ID)): ?>
+										<a class="text-complementary px-1" href="<?php echo get_field('publication_slides', $item->ID); ?>">
+											<i class="fas fa-file-powerpoint fa-1x text-shadow-soft"></i>
+										</a>
+									<?php endif; ?>
+
+									<?php if (get_field('publication_talk', $item->ID)): ?>
+										<a class="text-complementary px-1" href="<?php echo get_field('publication_talk', $item->ID); ?>">
+											<i class="fab fa-youtube-square fa-1x text-shadow-soft"></i>
+										</a>
+									<?php endif; ?>
+
+									<?php if (get_field('publication_code', $item->ID)): ?>
+										<a class="text-complementary px-1" href="<?php echo get_field('publication_code', $item->ID); ?>">
+											<i class="fab fa-github-square fa-1x text-shadow-soft"></i>
+										</a>
+									<?php endif; ?>
+
+									<?php if (get_field('publication_other_label', $item->ID) && get_field('publication_other_link', $item->ID)): ?>
+										<a class="text-complementary px-1" href="<?php echo get_field('publication_other_link', $item->ID); ?>">
+											<i class="fas fa-external-link-alt fa-1x text-shadow-soft"></i> <?php echo get_field('publication_other_label', $item->ID); ?>
+										</a>
+									<?php endif; ?>
+								</div>
+							</div>
+						<?php endforeach; ?>
+					</div>
+
+				<?php else: ?>
+
+					<!-- Display within archive block -->
+					<?php if ( $currentYear - $year == 3): // Display Archive header on first archive year ?>
+						<h4>Archived Papers</h4>
+						<hr class="mt-1">
+					<?php endif; ?>
+
 					<?php foreach ( $yearItems as $index => $item ): ?>
-						<div class="pl-3 d-flex flex-column align-content-start">
+						<div class="pl-3 d-flex flex-column align-content-start mb-2">
 							<div class="w-100">
 								<div class="text-primary"><?php echo get_field('publication_title', $item->ID); ?></div>
 								<div class="font-size-sm font-italic"><?php echo get_field('publication_authors', $item->ID); ?></div>
@@ -109,15 +193,10 @@ if ( ! function_exists( 'ucfwp_post_list_display_publication' ) ) {
 								<?php endif; ?>
 							</div>
 						</div>
-
-						<?php if ($index != (count($yearItems) - 1)): ?>
-							<hr class="mx-3">
-						<?php endif; ?>
 					<?php endforeach; ?>
-				</div>
+
+				<?php endif; ?>
 			<?php endforeach; ?>
-		<?php else: ?>
-		<div class="ucf-post-list-error mb-4">No results found.</div>
 		<?php endif; ?>
 	<?php
 		return ob_get_clean();
@@ -178,79 +257,69 @@ if ( ! function_exists( 'ucfwp_post_list_display_selected_publication' ) ) {
 	?>
 		<?php if ( $items ): ?>
 			<?php
-				// Group publications by year
-				$grouped = [];
+				// Sort each Year group by date
+				usort($items, function($a, $b) {
+					$first = get_field('publication_month', $a->ID) . ' ' . get_field( 'publication_year', $a->ID );
+					$second = get_field('publication_month', $b->ID) . ' ' . get_field( 'publication_year', $b->ID );
 
-				foreach ( $items as $item ) {
-					$year = get_field('publication_year', $item->ID);
-					$grouped[$year][] = $item;
-				}
+					return strtotime($second) <=> strtotime($first);
+				});
 
-				$ordered = [];
-				foreach($grouped as $year => $yearItems) {
-					usort($yearItems, function($a, $b) {
-						$first = get_field('publication_month', $a->ID);
-						$second = get_field('publication_month', $b->ID);
+				// Re-sort by Display Order
+				usort($items, function($a, $b) {
+					$first = get_field( 'selected_display_order', $a->ID ) ?: 9999;
+					$second = get_field( 'selected_display_order', $b->ID ) ?: 9999;
 
-						return strtotime($second) - strtotime($first);
-					});
-
-					$ordered[$year] = $yearItems;
-				}
+					return ($first <=> $second);
+				});
 			?>
-			<?php foreach($ordered as $year => $yearItems): ?>
-				<?php foreach ( $yearItems as $index => $item ): ?>
-					<div class="pl-3 d-flex flex-column align-content-start">
-						<div class="w-100">
-							<div class="text-primary"><?php echo get_field('publication_title', $item->ID); ?></div>
-							<div class="font-size-sm font-italic"><?php echo get_field('publication_authors', $item->ID); ?></div>
-							<div>
-								<h6 class="d-inline"><?php echo get_field('publication_journal', $item->ID); ?></h6>
-								<?php if (get_field('publication_month', $item->ID)): ?>
-									<?php echo get_field('publication_month', $item->ID); ?>
-								<?php endif; ?>
-								<?php if (get_field('publication_year', $item->ID)): ?>
-									<?php echo get_field('publication_year', $item->ID); ?>
-								<?php endif; ?>
-							</div>
-						</div>
-						<div class="w-100 pl-3 pt-1 text-left">
-							<?php if (get_field('publication_pdf', $item->ID)): ?>
-								<a class="text-complementary px-1" href="<?php echo get_field('publication_pdf', $item->ID); ?>">
-									<i class="far fa-file-pdf fa-1x text-shadow-soft"></i>
-								</a>
+			<?php foreach ( $items as $index => $item ): ?>
+				<div class="pl-3 d-flex flex-column align-content-start mb-3">
+					<div class="w-100">
+						<div class="text-primary"><?php echo get_field('publication_title', $item->ID); ?></div>
+						<div class="font-size-sm font-italic"><?php echo get_field('publication_authors', $item->ID); ?></div>
+						<div>
+							<h6 class="d-inline"><?php echo get_field('publication_journal', $item->ID); ?></h6>
+							<?php if (get_field('publication_month', $item->ID)): ?>
+								<?php echo get_field('publication_month', $item->ID); ?>
 							<?php endif; ?>
-
-							<?php if (get_field('publication_slides', $item->ID)): ?>
-								<a class="text-complementary px-1" href="<?php echo get_field('publication_slides', $item->ID); ?>">
-									<i class="fas fa-file-powerpoint fa-1x text-shadow-soft"></i>
-								</a>
-							<?php endif; ?>
-
-							<?php if (get_field('publication_talk', $item->ID)): ?>
-								<a class="text-complementary px-1" href="<?php echo get_field('publication_talk', $item->ID); ?>">
-									<i class="fab fa-youtube-square fa-1x text-shadow-soft"></i>
-								</a>
-							<?php endif; ?>
-
-							<?php if (get_field('publication_code', $item->ID)): ?>
-								<a class="text-complementary px-1" href="<?php echo get_field('publication_code', $item->ID); ?>">
-									<i class="fab fa-github-square fa-1x text-shadow-soft"></i>
-								</a>
-							<?php endif; ?>
-
-							<?php if (get_field('publication_other_label', $item->ID) && get_field('publication_other_link', $item->ID)): ?>
-								<a class="text-complementary px-1" href="<?php echo get_field('publication_other_link', $item->ID); ?>">
-									<i class="fas fa-external-link-alt fa-1x text-shadow-soft"></i> <?php echo get_field('publication_other_label', $item->ID); ?>
-								</a>
+							<?php if (get_field('publication_year', $item->ID)): ?>
+								<?php echo get_field('publication_year', $item->ID); ?>
 							<?php endif; ?>
 						</div>
 					</div>
+					<div class="w-100 pl-3 pt-1 text-left">
+						<?php if (get_field('publication_pdf', $item->ID)): ?>
+							<a class="text-complementary px-1" href="<?php echo get_field('publication_pdf', $item->ID); ?>">
+								<i class="far fa-file-pdf fa-1x text-shadow-soft"></i>
+							</a>
+						<?php endif; ?>
 
-					<?php if ($index != (count($yearItems) - 1)): ?>
-						<hr class="mx-3">
-					<?php endif; ?>
-				<?php endforeach; ?>
+						<?php if (get_field('publication_slides', $item->ID)): ?>
+							<a class="text-complementary px-1" href="<?php echo get_field('publication_slides', $item->ID); ?>">
+								<i class="fas fa-file-powerpoint fa-1x text-shadow-soft"></i>
+							</a>
+						<?php endif; ?>
+
+						<?php if (get_field('publication_talk', $item->ID)): ?>
+							<a class="text-complementary px-1" href="<?php echo get_field('publication_talk', $item->ID); ?>">
+								<i class="fab fa-youtube-square fa-1x text-shadow-soft"></i>
+							</a>
+						<?php endif; ?>
+
+						<?php if (get_field('publication_code', $item->ID)): ?>
+							<a class="text-complementary px-1" href="<?php echo get_field('publication_code', $item->ID); ?>">
+								<i class="fab fa-github-square fa-1x text-shadow-soft"></i>
+							</a>
+						<?php endif; ?>
+
+						<?php if (get_field('publication_other_label', $item->ID) && get_field('publication_other_link', $item->ID)): ?>
+							<a class="text-complementary px-1" href="<?php echo get_field('publication_other_link', $item->ID); ?>">
+								<i class="fas fa-external-link-alt fa-1x text-shadow-soft"></i> <?php echo get_field('publication_other_label', $item->ID); ?>
+							</a>
+						<?php endif; ?>
+					</div>
+				</div>
 			<?php endforeach; ?>
 		<?php else: ?>
 		<div class="ucf-post-list-error mb-4">No results found.</div>

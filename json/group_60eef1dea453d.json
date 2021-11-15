@@ -44,7 +44,7 @@
             "key": "field_60eef21ff4ba7",
             "label": "Project Description",
             "name": "project_description",
-            "type": "textarea",
+            "type": "wysiwyg",
             "instructions": "",
             "required": 1,
             "conditional_logic": 0,
@@ -54,10 +54,10 @@
                 "id": ""
             },
             "default_value": "",
-            "placeholder": "",
-            "maxlength": "",
-            "rows": "",
-            "new_lines": "wpautop"
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
         },
         {
             "key": "field_60f07349135ef",
@@ -132,6 +132,25 @@
             "min": "",
             "max": "",
             "return_format": "object"
+        },
+        {
+            "key": "field_6191a2c05bfbf",
+            "label": "Project Order",
+            "name": "project_order",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
         }
     ],
     "location": [
@@ -153,5 +172,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1631064080
+    "modified": 1636934355
 }

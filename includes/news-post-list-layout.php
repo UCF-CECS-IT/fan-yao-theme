@@ -35,27 +35,14 @@ if ( ! function_exists( 'ucfwp_post_list_display_news' ) ) {
 		<ul class="list-group list-group-flush">
 			<?php foreach ( $items as $item ): ?>
 				<li class="list-group-item">
-					<!-- <a class="newsitem-link" href="<?php echo get_permalink( $item->ID ); ?>"> -->
-						<div class="w-100 d-flex flex-row justify-content-between align-items-center pb-1">
-							<h5 class="newsitem-heading mb-0"><?php echo $item->post_title; ?></h5>
-							<div>
-								<?php get_news_icon( $item->ID ); ?>
-							</div>
+					<div class="w-100 d-flex flex-row justify-content-between align-items-top font-size-sm mb-1">
+						<div class="pointer-events-none no-underline text-secondary pr-2">
+							<?php echo $item->post_content; ?>
 						</div>
-						<div class="w-100 d-flex flex-row justify-content-between align-items-center font-size-sm mb-1">
-							<?php if ( get_field('news_article_link', $item->ID) ): ?>
-								<a class="pl-1" href="<?php echo get_field('news_article_link', $item->ID); ?>" target="_blank"><i class="fas fa-external-link-alt"></i> Link</a>
-							<?php else: ?>
-								<span></span>
-							<?php endif; ?>
-							<span class="date text-muted letter-spacing-2"><?php the_time( 'F j, Y' ); ?></span>
+						<div>
+							<?php get_news_icon( $item->ID ); ?>
 						</div>
-						<?php if ($content = ucfwp_get_excerpt( $item, 25 )): ?>
-							<p class="pointer-events-none no-underline text-secondary" style="font-size: 85%;">
-								<?php echo $content; ?>
-							</p>
-						<?php endif; ?>
-					<!-- </a> -->
+					</div>
 				</li>
 			<?php endforeach; ?>
 		</ul>

@@ -107,3 +107,71 @@ function add_custom_taxonomy()
 }
 
 add_action( 'init', 'add_custom_taxonomy', 0 );
+
+/**
+ * Adds Talks CPT
+ *
+ * @since 1.0.0
+ */
+function talks_post_type()
+{
+	$singular = 'Talk';
+	$plural = 'Talks';
+	$taxonomies = array(
+		'post_tag',
+		'category',
+	);
+	$icon = 'dashicons-list-view';
+
+	$labels = array(
+		'name'                  => _x( $plural, 'Post Type General Name', 'fan-yao-theme' ),
+		'singular_name'         => _x( $singular, 'Post Type Singular Name', 'fan-yao-theme' ),
+		'menu_name'             => __( $plural, 'fan-yao-theme' ),
+		'name_admin_bar'        => __( $singular, 'fan-yao-theme' ),
+		'archives'              => __( $plural . ' Archives', 'fan-yao-theme' ),
+		'parent_item_colon'     => __( 'Parent ' . $singular . ':', 'fan-yao-theme' ),
+		'all_items'             => __( 'All ' . $plural, 'fan-yao-theme' ),
+		'add_new_item'          => __( 'Add New ' . $singular, 'fan-yao-theme' ),
+		'add_new'               => __( 'Add New', 'fan-yao-theme' ),
+		'new_item'              => __( 'New ' . $singular, 'fan-yao-theme' ),
+		'edit_item'             => __( 'Edit ' . $singular, 'fan-yao-theme' ),
+		'update_item'           => __( 'Update ' . $singular, 'fan-yao-theme' ),
+		'view_item'             => __( 'View ' . $singular, 'fan-yao-theme' ),
+		'search_items'          => __( 'Search ' . $plural, 'fan-yao-theme' ),
+		'not_found'             => __( 'Not found', 'fan-yao-theme' ),
+		'not_found_in_trash'    => __( 'Not found in Trash', 'fan-yao-theme' ),
+		'featured_image'        => __( 'Featured Image', 'fan-yao-theme' ),
+		'set_featured_image'    => __( 'Set featured image', 'fan-yao-theme' ),
+		'remove_featured_image' => __( 'Remove featured image', 'fan-yao-theme' ),
+		'use_featured_image'    => __( 'Use as featured image', 'fan-yao-theme' ),
+		'insert_into_item'      => __( 'Insert into ' . $singular, 'fan-yao-theme' ),
+		'uploaded_to_this_item' => __( 'Uploaded to this ' . $singular, 'fan-yao-theme' ),
+		'items_list'            => __( $plural . ' list', 'fan-yao-theme' ),
+		'items_list_navigation' => __( $plural . ' list navigation', 'fan-yao-theme' ),
+		'filter_items_list'     => __( 'Filter ' . $plural . ' list', 'fan-yao-theme' ),
+	);
+
+	$args = array(
+		'label'                 => __( $plural, 'fan-yao-theme' ),
+		'description'           => __( $plural, 'fan-yao-theme' ),
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'editor', 'excerpt', 'thumbnail', 'revisions', 'custom-fields', ),
+		'taxonomies'            => $taxonomies,
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 8,
+		'menu_icon'             => $icon,
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => true,
+		'can_export'            => true,
+		'has_archive'           => false,
+		'exclude_from_search'   => false,
+		'publicly_queryable'    => true,
+		'capability_type'       => 'post',
+	);
+
+	register_post_type( 'talk', $args );
+}
+add_action( 'init', 'talks_post_type', 0 );

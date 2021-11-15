@@ -1,0 +1,43 @@
+{
+    "key": "group_618e91f17c70d",
+    "title": "Page Fields",
+    "fields": [
+        {
+            "key": "field_618e9201135bc",
+            "label": "Show Bio",
+            "name": "show_bio",
+            "type": "true_false",
+            "instructions": "Select to show the bio and links at the top of the page.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "side",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1636733514
+}

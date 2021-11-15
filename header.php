@@ -34,18 +34,19 @@
 			</div>
 		</nav>
 
-		<?php if ( is_front_page() ): ?>
+		<?php if ( get_field( 'show_bio' ) ): ?>
 			<header class="site-header" aria-label="Site header">
 				<div class="container pt-3">
+					<h2 class="">Principal Investigator</h2>
 					<div class="row mb-3">
 						<div class="col-lg-2 col-md-4 d-flex flex-column justify-content-center">
-							<img class="img-fluid w-100 rounded-circle box-shadow-soft" src="<?php echo get_field('options_photo', 'option'); ?>">
+							<img class="img-fluid w-100 box-shadow-soft" src="<?php echo get_field('options_photo', 'option'); ?>">
 						</div>
 
 						<div class="col-lg-10 col-md-8">
 							<div class="row">
 								<div class="col-lg-6">
-									<h2 class="">Fan Yao</h2>
+									<h3 class="">Fan Yao</h3>
 									<?php if (get_field('options_position', 'option')): ?>
 										<h5 class="text-muted letter-spacing-1 font-weight-normal">
 											<?php echo get_field('options_position', 'option'); ?>
@@ -62,7 +63,7 @@
 													<div class="col-3 small">
 														<a href="mailto:<?php echo get_field('options_email', 'option'); ?>">
 															<span class="fa-stack fa-2x hover-parent">
-																<i class="text-complementary fas fa-circle fa-stack-2x hover-child-dark-purple text-shadow-soft"></i>
+																<i class="text-secondary fas fa-circle fa-stack-2x hover-child-dark-purple text-shadow-soft"></i>
 																<i class="text-white fas fa-envelope fa-stack-1x fa-inverse "></i>
 															</span>
 														</a>
@@ -73,7 +74,7 @@
 													<div class="col-3 small">
 														<a href="<?php echo get_field('options_google_scholar', 'option'); ?>" target="_blank">
 															<span class="fa-stack fa-2x hover-parent">
-																<i class="text-complementary fas fa-circle fa-stack-2x hover-child-dark-purple text-shadow-soft"></i>
+																<i class="text-secondary fas fa-circle fa-stack-2x hover-child-dark-purple text-shadow-soft"></i>
 																<i class="text-white fab fa-google fa-stack-1x fa-inverse "></i>
 															</span>
 														</a>
@@ -84,7 +85,7 @@
 													<div class="col-3 small">
 														<a href="<?php echo get_field('options_researchgate', 'option'); ?>" target="_blank">
 															<span class="fa-stack fa-2x hover-parent">
-																<i class="text-complementary fas fa-circle fa-stack-2x hover-child-dark-purple text-shadow-soft"></i>
+																<i class="text-secondary fas fa-circle fa-stack-2x hover-child-dark-purple text-shadow-soft"></i>
 																<i class="text-white fab fa-researchgate fa-stack-1x fa-inverse "></i>
 															</span>
 														</a>
@@ -95,7 +96,7 @@
 													<div class="col-3 small">
 														<a href="<?php echo get_field('options_github', 'option'); ?>" target="_blank">
 															<span class="fa-stack fa-2x hover-parent">
-																<i class="text-complementary fas fa-circle fa-stack-2x hover-child-dark-purple text-shadow-soft"></i>
+																<i class="text-secondary fas fa-circle fa-stack-2x hover-child-dark-purple text-shadow-soft"></i>
 																<i class="text-white fab fa-github fa-stack-1x fa-inverse "></i>
 															</span>
 														</a>
@@ -117,7 +118,6 @@
 
 					<h4 class=""><?php echo get_field('options_lab_name', 'option'); ?></h4>
 					<p class="mb-0 pb-0"><?php echo get_field('options_lab_description', 'option'); ?></p>
-					<hr>
 				</div>
 			</header>
 		<?php endif; ?>

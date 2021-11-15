@@ -30,28 +30,29 @@ if ( ! function_exists( 'ucfwp_post_list_display_project' ) ) {
 	function ucfwp_post_list_display_project( $content, $items, $atts ) {
 		if ( ! is_array( $items ) && $items !== false ) { $items = array( $items ); }
 		ob_start();
-
-		$stringLimit = 10000;
-
-		if ( is_front_page() ) {
-			$stringLimit = 200;
-		}
 	?>
-		<?php if ( $items ): ?>
+		<?php if ( $items ):
+			usort($items, function ($a, $b) {
+				$first = get_field( 'project_order', $a->ID ) ?: 9999;
+				$second = get_field( 'project_order', $b->ID ) ?: 9999;
+
+				return $first <=> $second;
+			});
+
+			?>
 			<div class="py-2">
 				<?php foreach ( $items as $item ):
-					$publications = get_field( 'project_publications', $item->ID );
 					$team = get_field( 'project_team_members', $item->ID );
 					?>
 					<a class="wrapper-link" href="<?php echo get_permalink($item->ID); ?>">
-						<div class="row justify-content-center mb-4">
-							<div class="col-lg-4 col-md-8">
+						<div class="row justify-content-center mb-5">
+							<div class="col-lg-3 col-md-8">
 								<?php if (get_field('project_photo', $item->ID)): ?>
 									<img class="img-fluid rounded" src="<?php echo get_field('project_photo', $item->ID); ?>">
 								<?php endif; ?>
 							</div>
 
-							<div class="col-lg-8">
+							<div class="col-lg-9">
 								<h4 class="wrapper-heading pt-3 pt-lg-0"><?php echo get_field('project_name', $item->ID); ?></h4>
 								<hr>
 								<div class="font-size-sm text-secondary">
@@ -59,20 +60,23 @@ if ( ! function_exists( 'ucfwp_post_list_display_project' ) ) {
 										if ( get_field('project_summary', $item->ID) ) {
 											echo get_field('project_summary', $item->ID);
 										} else {
-											$description = substr(get_field('project_description', $item->ID), 0, $stringLimit);
+											$originalDescription = get_field('project_description', $item->ID);
+											$stringLimit = 200;
 
-											if ($stringLimit == 200) {
+											$description = substr( $originalDescription, 0, $stringLimit);
+
+											if ( strlen($originalDescription) > $stringLimit) {
 												$description .= '...';
 											}
+
 											echo $description;
 										}
-
 									?>
 								</div>
 
 								<?php if ( $team ): ?>
 									<div class="font-size-sm mb-1">
-										<div class="d-inline text-secondary">Team Members:</div>
+										<div class="d-inline text-secondary font-weight-bold">Team Members:</div>
 										<?php foreach ( $team as $index => $member ): ?>
 											<span class="text-secondary">
 												<?php echo $member->post_title; ?>
@@ -83,29 +87,10 @@ if ( ! function_exists( 'ucfwp_post_list_display_project' ) ) {
 										<?php endforeach; ?>
 									</div>
 								<?php endif; ?>
-								<?php if ( $publications ): ?>
-									<div class="font-size-sm text-secondary mb-3">
-										<p class="font-weight-bold mb-1">Related Publications:</p>
-										<div class="pl-3 w-75">
-											<?php foreach ( $publications as $index => $publication ): ?>
-												<div class="small">
-													<span class=""><?php echo get_field('publication_title', $publication->ID); ?></span>,
-													<span class="font-italic"><?php echo get_field('publication_authors', $publication->ID); ?></span>,
-													<span>
-														<span class="d-inline"><?php echo get_field('publication_journal', $publication->ID); ?></span>
-														<?php if (get_field('publication_month', $publication->ID)): ?>
-															<?php echo get_field('publication_month', $publication->ID); ?>
-														<?php endif; ?>
-														<?php if (get_field('publication_year', $publication->ID)): ?>
-															<?php echo get_field('publication_year', $publication->ID); ?>
-														<?php endif; ?>
-													</span>
-												</div>
-												<?php if ($index != ( count($publications) - 1 ) ): ?>
-													<hr class="my-1">
-												<?php endif; ?>
-											<?php endforeach; ?>
-										</div>
+
+								<?php if ( strlen($originalDescription) > $stringLimit): ?>
+									<div class="text-center">
+										<button class="btn btn-sm btn-secondary">View More</button>
 									</div>
 								<?php endif; ?>
 							</div>
