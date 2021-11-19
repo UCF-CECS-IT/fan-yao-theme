@@ -68,36 +68,28 @@ Want to submit a bug report or feature request?  Check out our [contributing gui
 - [x] Sponsor. Only show it as footer in first page. Make it centered
 - [x] All image are either not shown properly or not appear at all
 - [x] For team members, one row for each member. Left side, photo, right side, name, position. Email (+personal page link) address and one paragraph of self introduction.
-- [ ] Add a tab called “Openings” where I can show advertisement (a post)
+- [x] Add a tab called “Openings” where I can show advertisement (a post)
 - [x] Team Alumni, show only name if there is no image
 - [x] PhD students, Master and Undergraduate Students, Team Alumni
 - [x] More contrasts in the publications list.
 - [x] Cut the text in abstract of each project if it is too long. Add something like “more”.
 - [x] Remove the publications below the abstract. Only show that in the full description page.
 - [x] Separate posts from the asbtract and the full descriptions. In project description page, Show “Related Publications"
+- [x] In the home page, put the Talks and Demos below selected publications and news.
+- [ ] Under the lab description, add one button “Join CASTL”, which links to the the “Opening” page. Similar to this one: https://deep-real.github.io/index.html. By the way, I decided to change abbreviation of our lab to CASTL short for “Computer Architecture and SysTem-research Lab”. We might need to change the url. But we can consider doing that later.
+- [x] Change the page table order as follows: HOME, TEAM, PUBLICATIONS, PROJECTS, OPENINGS and NEWS.
+- [x] In the project page, no need to show Team Members. Also, make the text limit a little longer so that it can show say one paragraph. Currently there is a cutoff in the second sentence.
+- [x] Publication page, put the “Archived Papers” on top.
+- [x] Team page. No longer needed to show the Lab name and description since it will be added in the home page.
+- [x] Also, could you add a horizontal line and some white space after the Principle Investigator (same as the Current Team Members)?
+- [x] For the full publications page, there are a couple of things I think we can add into the style, including make the title text bold etc. One example text style I like is this one: https://gruss.cc. (Note that I only talked about color/fonts, our current layout/format of the publications look fine. e.g., no need to make my name bold).
+- [x] Additionally, the icons for paper, talk, slides and so on do not seem to be very compatible with the overall theme (e.g., relatively small and crowed). I would rather use boxed text, examples can be found here: https://mguarnieri.github.io/publication/. When hover on the text boxes (e.g, PDF), it can show a black background color. Note that you can do all the fine-tuning for the style you can where you see fit. It does not have to be exactly the same as the examples I sent you. Screenshots are listed here:
+- [x] For selected publications, it would be good to show the abbreviation of the conference/journal on the left side and then the detailed paper information on the right side. One example I can find is below: https://www.cs.ucr.edu/~zhiyunq/. Of course, we can keep our color/style for the texts in our full publication page.
+- [x] Also, I do need to have the control of papers in Selected publications, which may not be the same as the one in full publications page.
+
 
 
 ## Explanatory Notes
 
 Change list:
-- The Home page now contains a "Talks and Demos" section that is automatically generated from items enterd in the "Talks" section of the admin dashboard. Talks/Demos must have either an image or a video url to embed (please note the embed format specified above the video url field - incorrectly formatted YouTube links cannot be embedded). They are displayed in the order specified by the "Display Order" form field.
-- The videos and images are all set to display in a 16:9 aspect ratio to maintain uniformity. Let me know if you would prefer a different aspect ratio.
-- The top segment of the Home page now contains a section with an image background that can be updated from the Edit page for the Home page. This is where the image from the content box will be displayed. The background image automatically has a darkening filter applied to it, which should allow you to upload different images without needing to edit them first if you want to change the background. The text has a small black halo to increase contrast and readability against the background.
-- The white space between the selected publications and news se
-- The bio section has been removed from the home page. It is now added on the Team page and has the requested "Principle Investigator" title. The bio image is now rectangular.
-- The icon color has been changed to black and white.
-- The Sponsor section is now only on the home page and has the content centered.
-- Projects now have a "project abstract" field (200 characters max). If no abstract is entered, the first 200 characters of the project description are used. The rest will be cut off, and a "View More" button has been added below each project entry.
-- The size of Project images on the list page has been decreased to match the shorter abstract.
-- Projects now have a field to control their display order. Projects whose display order is not explicity set will be shown in order from newest entries to oldest.
-- Projects will no longer display related publications.
-- News items are now set to be a single row, on both the Home page and the News page.
-- Previously news items were mistakenly set to strip HTML tags when displaying the text content. That has been corrected and the formatting will now be fully controllable.
-- Publications now have a two order settings: one for selected publication position on the front page, and one for their order as part of the full publication list. A note about the publication order: currently, the ordering affects the order within the publication year. So for example, a publication from 2020 with order #1 will be displayed first in the 2020 section, not first in the list overall. The order for the regular publication page and the selected publication list are set independently, so they do not need to be the same value, and if you want one or both can be left blank, allowing the publication to appear in its normal chronological position. Publications appear within their year group in order from newest to oldest.
-- Selected publications will also default to sorting newest to oldest for items where a specific order is not provided.
-- On the full publication list, an archive section is automatically generated for any papers from 3 years ago (so currently the archive would begin in 2018) or older. The archive heading will disappear and the section will be blank if no papers fit the criteria.
-- The lines between individual publications have been removed
-- The text on the publication titles has been changed to a darker color for increased contrast. If you still feel like it's a little off, this might be a helpful tool for finding a color that you like: https://htmlcolorcodes.com/color-picker/. Just let me know the hex code and I can swap it out.
-- Team members entries now have a Role field (updated as a dropdown selector to use for the auto-sorting), a Personal Link field, and a Display Order field. For team members where a display order is not specified, they will be displayed alphabetically by last name.
-- The team members will automatically be sorted and displayed by Role.
--
+

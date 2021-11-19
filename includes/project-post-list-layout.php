@@ -42,7 +42,6 @@ if ( ! function_exists( 'ucfwp_post_list_display_project' ) ) {
 			?>
 			<div class="py-2">
 				<?php foreach ( $items as $item ):
-					$team = get_field( 'project_team_members', $item->ID );
 					?>
 					<a class="wrapper-link" href="<?php echo get_permalink($item->ID); ?>">
 						<div class="row justify-content-center mb-5">
@@ -61,7 +60,7 @@ if ( ! function_exists( 'ucfwp_post_list_display_project' ) ) {
 											echo get_field('project_summary', $item->ID);
 										} else {
 											$originalDescription = get_field('project_description', $item->ID);
-											$stringLimit = 200;
+											$stringLimit = 400;
 
 											$description = substr( $originalDescription, 0, $stringLimit);
 
@@ -74,25 +73,9 @@ if ( ! function_exists( 'ucfwp_post_list_display_project' ) ) {
 									?>
 								</div>
 
-								<?php if ( $team ): ?>
-									<div class="font-size-sm mb-1">
-										<div class="d-inline text-secondary font-weight-bold">Team Members:</div>
-										<?php foreach ( $team as $index => $member ): ?>
-											<span class="text-secondary">
-												<?php echo $member->post_title; ?>
-												<?php if ($index != ( count($team) - 1 ) ): ?>
-													,
-												<?php endif; ?>
-											</span>
-										<?php endforeach; ?>
-									</div>
-								<?php endif; ?>
-
-								<?php if ( strlen($originalDescription) > $stringLimit): ?>
-									<div class="text-center">
-										<button class="btn btn-sm btn-secondary">View More</button>
-									</div>
-								<?php endif; ?>
+								<div class="text-center mt-2">
+									<button class="btn btn-sm btn-secondary">View More</button>
+								</div>
 							</div>
 						</div>
 					</a>

@@ -45,8 +45,12 @@ if ( ! function_exists( 'ucfwp_post_list_display_publication' ) ) {
 				$grouped = [];
 
 				foreach ( $items as $item ) {
-					$year = get_field('publication_year', $item->ID);
-					$grouped[$year][] = $item;
+					if ( get_field('publication_is_pending', $item->ID ) == 'Pending' ) {
+						$grouped['Archive'][] = $item;
+					} else {
+						$year = get_field('publication_year', $item->ID);
+						$grouped[$year][] = $item;
+					}
 				}
 
 				$ordered = [];
@@ -62,6 +66,15 @@ if ( ! function_exists( 'ucfwp_post_list_display_publication' ) ) {
 
 					$ordered[$year] = $yearItems;
 				}
+
+				// re-sort by keys ascending to ensure the Archives display first
+				uksort($ordered, function($a, $b) {
+					if ($a == 'Archive') return 1;
+
+					if ($b == 'Archive') return 1;
+
+					return -($a <=> $b);
+				});
 
 				// Re-sort by display order
 				foreach($ordered as $year => $yearItems) {
@@ -81,8 +94,7 @@ if ( ! function_exists( 'ucfwp_post_list_display_publication' ) ) {
 			?>
 			<?php foreach($ordered as $year => $yearItems): ?>
 
-				<?php if ( ( $currentYear - $year ) < 3) :?>
-
+				<?php if ( $yearItems ): ?>
 					<!-- Display Individual Date Years -->
 					<h4><?php echo $year; ?></h4>
 					<hr class="mt-1">
@@ -91,7 +103,7 @@ if ( ! function_exists( 'ucfwp_post_list_display_publication' ) ) {
 						<?php foreach ( $yearItems as $index => $item ): ?>
 							<div class="pl-3 d-flex flex-column align-content-start mb-2">
 								<div class="w-100">
-									<div class="text-primary"><?php echo get_field('publication_title', $item->ID); ?></div>
+									<div class="text-primary font-weight-bold" style="font-size: 110%"><?php echo get_field('publication_title', $item->ID); ?></div>
 									<div class="font-size-sm font-italic"><?php echo get_field('publication_authors', $item->ID); ?></div>
 									<div>
 										<h6 class="d-inline"><?php echo get_field('publication_journal', $item->ID); ?></h6>
@@ -103,99 +115,32 @@ if ( ! function_exists( 'ucfwp_post_list_display_publication' ) ) {
 										<?php endif; ?>
 									</div>
 								</div>
-								<div class="w-100 pl-3 pt-1 text-left">
+								<div class="w-100 pl-3 pb-1 text-left">
 									<?php if (get_field('publication_pdf', $item->ID)): ?>
-										<a class="text-complementary px-1" href="<?php echo get_field('publication_pdf', $item->ID); ?>">
-											<i class="far fa-file-pdf fa-1x text-shadow-soft"></i>
-										</a>
+										<a class="btn btn-sm small text-transform-none btn-outline-secondary rounded py-1 px-2" href="<?php echo get_field('publication_pdf', $item->ID); ?>"><small>PDF</small></a>
 									<?php endif; ?>
 
 									<?php if (get_field('publication_slides', $item->ID)): ?>
-										<a class="text-complementary px-1" href="<?php echo get_field('publication_slides', $item->ID); ?>">
-											<i class="fas fa-file-powerpoint fa-1x text-shadow-soft"></i>
-										</a>
+										<a class="btn btn-sm small text-transform-none btn-outline-secondary rounded py-1 px-2" href="<?php echo get_field('publication_slides', $item->ID); ?>"><small>Slides</small></a>
 									<?php endif; ?>
 
 									<?php if (get_field('publication_talk', $item->ID)): ?>
-										<a class="text-complementary px-1" href="<?php echo get_field('publication_talk', $item->ID); ?>">
-											<i class="fab fa-youtube-square fa-1x text-shadow-soft"></i>
-										</a>
+										<a class="btn btn-sm small text-transform-none btn-outline-secondary rounded py-1 px-2" href="<?php echo get_field('publication_talk', $item->ID); ?>"><small>Talk</small></a>
 									<?php endif; ?>
 
 									<?php if (get_field('publication_code', $item->ID)): ?>
-										<a class="text-complementary px-1" href="<?php echo get_field('publication_code', $item->ID); ?>">
-											<i class="fab fa-github-square fa-1x text-shadow-soft"></i>
-										</a>
+										<a class="btn btn-sm small text-transform-none btn-outline-secondary rounded py-1 px-2" href="<?php echo get_field('publication_code', $item->ID); ?>"><small>Code</small></a>
 									<?php endif; ?>
 
 									<?php if (get_field('publication_other_label', $item->ID) && get_field('publication_other_link', $item->ID)): ?>
-										<a class="text-complementary px-1" href="<?php echo get_field('publication_other_link', $item->ID); ?>">
-											<i class="fas fa-external-link-alt fa-1x text-shadow-soft"></i> <?php echo get_field('publication_other_label', $item->ID); ?>
-										</a>
+										<a class="btn btn-sm small text-transform-none btn-outline-secondary rounded py-1 px-2" href="<?php echo get_field('publication_other_link', $item->ID); ?>"><small><?php echo get_field('publication_other_label', $item->ID); ?></small></a>
 									<?php endif; ?>
 								</div>
 							</div>
 						<?php endforeach; ?>
 					</div>
-
-				<?php else: ?>
-
-					<!-- Display within archive block -->
-					<?php if ( $currentYear - $year == 3): // Display Archive header on first archive year ?>
-						<h4>Archived Papers</h4>
-						<hr class="mt-1">
-					<?php endif; ?>
-
-					<?php foreach ( $yearItems as $index => $item ): ?>
-						<div class="pl-3 d-flex flex-column align-content-start mb-2">
-							<div class="w-100">
-								<div class="text-primary"><?php echo get_field('publication_title', $item->ID); ?></div>
-								<div class="font-size-sm font-italic"><?php echo get_field('publication_authors', $item->ID); ?></div>
-								<div>
-									<h6 class="d-inline"><?php echo get_field('publication_journal', $item->ID); ?></h6>
-									<?php if (get_field('publication_month', $item->ID)): ?>
-										<?php echo get_field('publication_month', $item->ID); ?>
-									<?php endif; ?>
-									<?php if (get_field('publication_year', $item->ID)): ?>
-										<?php echo get_field('publication_year', $item->ID); ?>
-									<?php endif; ?>
-								</div>
-							</div>
-							<div class="w-100 pl-3 pt-1 text-left">
-								<?php if (get_field('publication_pdf', $item->ID)): ?>
-									<a class="text-complementary px-1" href="<?php echo get_field('publication_pdf', $item->ID); ?>">
-										<i class="far fa-file-pdf fa-1x text-shadow-soft"></i>
-									</a>
-								<?php endif; ?>
-
-								<?php if (get_field('publication_slides', $item->ID)): ?>
-									<a class="text-complementary px-1" href="<?php echo get_field('publication_slides', $item->ID); ?>">
-										<i class="fas fa-file-powerpoint fa-1x text-shadow-soft"></i>
-									</a>
-								<?php endif; ?>
-
-								<?php if (get_field('publication_talk', $item->ID)): ?>
-									<a class="text-complementary px-1" href="<?php echo get_field('publication_talk', $item->ID); ?>">
-										<i class="fab fa-youtube-square fa-1x text-shadow-soft"></i>
-									</a>
-								<?php endif; ?>
-
-								<?php if (get_field('publication_code', $item->ID)): ?>
-									<a class="text-complementary px-1" href="<?php echo get_field('publication_code', $item->ID); ?>">
-										<i class="fab fa-github-square fa-1x text-shadow-soft"></i>
-									</a>
-								<?php endif; ?>
-
-								<?php if (get_field('publication_other_label', $item->ID) && get_field('publication_other_link', $item->ID)): ?>
-									<a class="text-complementary px-1" href="<?php echo get_field('publication_other_link', $item->ID); ?>">
-										<i class="fas fa-external-link-alt fa-1x text-shadow-soft"></i> <?php echo get_field('publication_other_label', $item->ID); ?>
-									</a>
-								<?php endif; ?>
-							</div>
-						</div>
-					<?php endforeach; ?>
-
 				<?php endif; ?>
+
 			<?php endforeach; ?>
 		<?php endif; ?>
 	<?php
@@ -274,50 +219,47 @@ if ( ! function_exists( 'ucfwp_post_list_display_selected_publication' ) ) {
 				});
 			?>
 			<?php foreach ( $items as $index => $item ): ?>
-				<div class="pl-3 d-flex flex-column align-content-start mb-3">
-					<div class="w-100">
-						<div class="text-primary"><?php echo get_field('publication_title', $item->ID); ?></div>
-						<div class="font-size-sm font-italic"><?php echo get_field('publication_authors', $item->ID); ?></div>
-						<div>
-							<h6 class="d-inline"><?php echo get_field('publication_journal', $item->ID); ?></h6>
-							<?php if (get_field('publication_month', $item->ID)): ?>
-								<?php echo get_field('publication_month', $item->ID); ?>
-							<?php endif; ?>
-							<?php if (get_field('publication_year', $item->ID)): ?>
-								<?php echo get_field('publication_year', $item->ID); ?>
-							<?php endif; ?>
+				<div class="row mb-3">
+					<div class="col-lg-2 col-md-3 d-flex flex-row justify-content-center align-items-center">
+						<div class="font-weight-bold">
+							<?php echo get_field( 'publication_journal_abbreviation', $item->ID ); ?>
 						</div>
 					</div>
-					<div class="w-100 pl-3 pt-1 text-left">
-						<?php if (get_field('publication_pdf', $item->ID)): ?>
-							<a class="text-complementary px-1" href="<?php echo get_field('publication_pdf', $item->ID); ?>">
-								<i class="far fa-file-pdf fa-1x text-shadow-soft"></i>
-							</a>
-						<?php endif; ?>
+					<div class="col-lg-9 col-md-8">
+						<div class="w-100">
+							<div class="text-primary font-weight-bold" style="font-size: 110%"><?php echo get_field('publication_title', $item->ID); ?></div>
+							<div class="font-size-sm font-italic"><?php echo get_field('publication_authors', $item->ID); ?></div>
+							<div>
+								<h6 class="d-inline"><?php echo get_field('publication_journal', $item->ID); ?></h6>
+								<?php if (get_field('publication_month', $item->ID)): ?>
+									<?php echo get_field('publication_month', $item->ID); ?>
+								<?php endif; ?>
+								<?php if (get_field('publication_year', $item->ID)): ?>
+									<?php echo get_field('publication_year', $item->ID); ?>
+								<?php endif; ?>
+							</div>
+						</div>
+						<div class="w-100 pl-3 pt-1 text-left">
+							<?php if (get_field('publication_pdf', $item->ID)): ?>
+								<a class="btn btn-sm small text-transform-none btn-outline-secondary rounded py-1 px-2" href="<?php echo get_field('publication_pdf', $item->ID); ?>">PDF</a>
+							<?php endif; ?>
 
-						<?php if (get_field('publication_slides', $item->ID)): ?>
-							<a class="text-complementary px-1" href="<?php echo get_field('publication_slides', $item->ID); ?>">
-								<i class="fas fa-file-powerpoint fa-1x text-shadow-soft"></i>
-							</a>
-						<?php endif; ?>
+							<?php if (get_field('publication_slides', $item->ID)): ?>
+								<a class="btn btn-sm small text-transform-none btn-outline-secondary rounded py-1 px-2" href="<?php echo get_field('publication_slides', $item->ID); ?>">Slides</a>
+							<?php endif; ?>
 
-						<?php if (get_field('publication_talk', $item->ID)): ?>
-							<a class="text-complementary px-1" href="<?php echo get_field('publication_talk', $item->ID); ?>">
-								<i class="fab fa-youtube-square fa-1x text-shadow-soft"></i>
-							</a>
-						<?php endif; ?>
+							<?php if (get_field('publication_talk', $item->ID)): ?>
+								<a class="btn btn-sm small text-transform-none btn-outline-secondary rounded py-1 px-2" href="<?php echo get_field('publication_talk', $item->ID); ?>">Talk</a>
+							<?php endif; ?>
 
-						<?php if (get_field('publication_code', $item->ID)): ?>
-							<a class="text-complementary px-1" href="<?php echo get_field('publication_code', $item->ID); ?>">
-								<i class="fab fa-github-square fa-1x text-shadow-soft"></i>
-							</a>
-						<?php endif; ?>
+							<?php if (get_field('publication_code', $item->ID)): ?>
+								<a class="btn btn-sm small text-transform-none btn-outline-secondary rounded py-1 px-2" href="<?php echo get_field('publication_code', $item->ID); ?>">Code</a>
+							<?php endif; ?>
 
-						<?php if (get_field('publication_other_label', $item->ID) && get_field('publication_other_link', $item->ID)): ?>
-							<a class="text-complementary px-1" href="<?php echo get_field('publication_other_link', $item->ID); ?>">
-								<i class="fas fa-external-link-alt fa-1x text-shadow-soft"></i> <?php echo get_field('publication_other_label', $item->ID); ?>
-							</a>
-						<?php endif; ?>
+							<?php if (get_field('publication_other_label', $item->ID) && get_field('publication_other_link', $item->ID)): ?>
+								<a class="btn btn-sm small text-transform-none btn-outline-secondary rounded py-1 px-2" href="<?php echo get_field('publication_other_link', $item->ID); ?>"><?php echo get_field('publication_other_label', $item->ID); ?></a>
+							<?php endif; ?>
+						</div>
 					</div>
 				</div>
 			<?php endforeach; ?>

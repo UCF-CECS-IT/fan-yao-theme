@@ -38,6 +38,7 @@
 			<header class="site-header" aria-label="Site header">
 				<div class="container pt-3">
 					<h2 class="">Principal Investigator</h2>
+					<hr class="my-2">
 					<div class="row mb-3">
 						<div class="col-lg-2 col-md-4 d-flex flex-column justify-content-center">
 							<img class="img-fluid w-100 box-shadow-soft" src="<?php echo get_field('options_photo', 'option'); ?>">
@@ -115,9 +116,6 @@
 							</div>
 						</div>
 					</div>
-
-					<h4 class=""><?php echo get_field('options_lab_name', 'option'); ?></h4>
-					<p class="mb-0 pb-0"><?php echo get_field('options_lab_description', 'option'); ?></p>
 				</div>
 			</header>
 		<?php endif; ?>

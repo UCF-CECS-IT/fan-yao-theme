@@ -46,7 +46,26 @@
             "name": "publication_journal",
             "type": "text",
             "instructions": "",
-            "required": 1,
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_6197b5daa649a",
+            "label": "Journal \/ Conference Abbreviation",
+            "name": "publication_abbreviation",
+            "type": "text",
+            "instructions": "For \"Selected Publications\" layout only",
+            "required": 0,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
@@ -203,28 +222,33 @@
             "placeholder": ""
         },
         {
-            "key": "field_618ee447c70f0",
-            "label": "Regular Display Order",
-            "name": "publication_display_order",
-            "type": "text",
+            "key": "field_61976619bb822",
+            "label": "Publication Status",
+            "name": "publication_is_pending",
+            "type": "radio",
             "instructions": "",
-            "required": 0,
+            "required": 1,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": ""
+            "choices": {
+                "Published": "Published",
+                "Pending": "Pending"
+            },
+            "allow_null": 0,
+            "other_choice": 0,
+            "default_value": "Published",
+            "layout": "horizontal",
+            "return_format": "value",
+            "save_other_choice": 0
         },
         {
-            "key": "field_618ee4e5c70f1",
-            "label": "Selected Display Order",
-            "name": "selected_display_order",
+            "key": "field_618ee447c70f0",
+            "label": "Regular Display Order",
+            "name": "publication_display_order",
             "type": "text",
             "instructions": "",
             "required": 0,
@@ -248,6 +272,13 @@
                 "operator": "==",
                 "value": "publications"
             }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "selected"
+            }
         ]
     ],
     "menu_order": 0,
@@ -258,5 +289,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1636754671
+    "modified": 1637332688
 }

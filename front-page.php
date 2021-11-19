@@ -31,16 +31,12 @@ $background = get_field( 'background_image', $post->ID );
 
 	<!-- Automated items -->
 	<div class="container mt-4 mt-sm-5 mb-5 pb-sm-4">
-		<h3 class="text-center mb-2">Talks and Demos</h3>
-		<hr class="bg-primary mt-1 mb-4">
-		<?php echo do_shortcode( '[ucf-post-list layout="talk" post_type="talk" posts_per_page="-1" order="ASC" orderby="meta_value" meta_key="talk_display_order"]' ); ?>
-
 		<div class="row mt-4">
 			<div class="col-lg-6 mb-4">
 				<div class="" id="selected-publications">
 					<h3 class="mb-2">Selected Publications</h3>
 					<hr class="bg-primary">
-					<?php echo do_shortcode( '[ucf-post-list layout="selected_publication" post_type="publications" taxonomy="selected-publications" tax_selected_publications__field="slug" tax_selected_publications="selected" posts_per_page="-1" order="ASC"][/ucf-post-list]' ); ?>
+					<?php echo do_shortcode( '[ucf-post-list layout="selected_publication" post_type="selected"  posts_per_page="-1" order="ASC"][/ucf-post-list]' ); ?>
 				</div>
 			</div>
 
@@ -53,6 +49,10 @@ $background = get_field( 'background_image', $post->ID );
 				</p>
 			</div>
 		</div>
+
+		<h3 class="text-center mb-2">Talks and Demos</h3>
+		<hr class="bg-primary mt-1 mb-4">
+		<?php echo do_shortcode( '[ucf-post-list layout="talk" post_type="talk" posts_per_page="-1" order="ASC" orderby="meta_value" meta_key="talk_display_order"]' ); ?>
 	</div>
 </article>
 
